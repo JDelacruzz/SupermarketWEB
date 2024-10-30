@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SupermarketWEB.Data;
 using SupermarketWEB.Models;
+using System.Threading.Tasks;
 
 namespace SupermarketWEB.Pages.Customers
 {
@@ -16,21 +17,21 @@ namespace SupermarketWEB.Pages.Customers
         }
 
         [BindProperty]
-        public Customer Customer { get; set; } = default!;
+        public Customer Customer { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Customers == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var customer = await _context.Customers.FirstOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            Customer = await _context.Customers.FindAsync(id);
+
+            if (Customer == null)
             {
                 return NotFound();
             }
-            Customer = customer;
             return Page();
         }
 
@@ -41,7 +42,20 @@ namespace SupermarketWEB.Pages.Customers
                 return Page();
             }
 
-            _context.Attach(Customer).State = EntityState.Modified;
+            var customerToUpdate = await _context.Customers.FindAsync(Customer.Id);
+
+            if (customerToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            customerToUpdate.Document_Number = Customer.Document_Number;
+            customerToUpdate.First_Name = Customer.First_Name;
+            customerToUpdate.Last_Name = Customer.Last_Name;
+            customerToUpdate.Address = Customer.Address;
+            customerToUpdate.Birth_Day = Customer.Birth_Day;
+            customerToUpdate.Phone_Number = Customer.Phone_Number;
+            customerToUpdate.Email = Customer.Email;
 
             try
             {
@@ -59,7 +73,7 @@ namespace SupermarketWEB.Pages.Customers
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("Index");
         }
 
         private bool CustomerExists(int id)
@@ -68,5 +82,3 @@ namespace SupermarketWEB.Pages.Customers
         }
     }
 }
-
-

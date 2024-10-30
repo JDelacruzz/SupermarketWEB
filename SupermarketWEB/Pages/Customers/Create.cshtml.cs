@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using SupermarketWEB.Data;
 using SupermarketWEB.Models;
 
@@ -24,13 +25,22 @@ namespace SupermarketWEB.Pages.Customers
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid || _context.Customers == null || Customer == null)
+            if (!ModelState.IsValid)
             {
                 return Page();
             }
 
             _context.Customers.Add(Customer);
-            await _context.SaveChangesAsync();
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError(string.Empty, "No se pudo guardar el cliente. Intenta nuevamente.");
+                return Page();
+            }
 
             return RedirectToPage("./Index");
         }
