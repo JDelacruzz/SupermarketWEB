@@ -16,8 +16,7 @@ namespace SupermarketWEB.Pages.Categories
         }
 
         [BindProperty]
-        public Category Category
-        { get; set; }
+        public Category Category { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -46,10 +45,11 @@ namespace SupermarketWEB.Pages.Categories
                 return NotFound();
             }
             var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+
+            if (category != null)
             {
                 Category = category;
-                _context.Categories.Remove(category);
+                _context.Categories.Remove(Category);
                 await _context.SaveChangesAsync();
             }
             return RedirectToPage("./Index");
