@@ -1,48 +1,59 @@
 ﻿@page
 @model SupermarketWEB.Pages.Products.CreateModel
 @{
-    ViewData["Title"] = "Create Product";
+    ViewData["Title"] = "Crear Producto";
 }
 
-<h1>Create Product</h1>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="text-center mb-0">Crear Producto</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="form-group mb-3">
+                            <label asp-for="Input.Name" class="form-label">Nombre del Producto</label>
+                            <input asp-for="Input.Name" class="form-control" />
+                            <span asp-validation-for="Input.Name" class="text-danger"></span>
+                        </div>
 
-<div class="row">
-    <div class="col-md-6">
-        <form method="post">
-            <div class="form-group">
-                <label asp-for="Product.CategoryId" class="control-label"></label>
-                <select asp-for="Product.CategoryId" class="form-control" asp-items="Model.Categories"></select>
-                <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
-            </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Input.Price" class="form-label">Precio</label>
+                            <input asp-for="Input.Price" class="form-control" type="number" min="0" />
+                            <span asp-validation-for="Input.Price" class="text-danger"></span>
+                        </div>
 
-            <div class="form-group">
-                <label asp-for="Product.Name" class="control-label"></label>
-                <input asp-for="Product.Name" class="form-control" />
-                <span asp-validation-for="Product.Name" class="text-danger"></span>
-            </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Input.Stock" class="form-label">Stock</label>
+                            <input asp-for="Input.Stock" class="form-control" type="number" min="0" />
+                            <span asp-validation-for="Input.Stock" class="text-danger"></span>
+                        </div>
 
-            <div class="form-group">
-                <label asp-for="Product.Price" class="control-label"></label>
-                <input asp-for="Product.Price" class="form-control" />
-                <span asp-validation-for="Product.Price" class="text-danger"></span>
-            </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Input.CategoryId" class="form-label">Categoría</label>
+                            <select asp-for="Input.CategoryId" asp-items="Model.Categories" class="form-select">
+                                <option value="">-- Seleccione una categoría --</option>
+                            </select>
+                            <span asp-validation-for="Input.CategoryId" class="text-danger"></span>
+                        </div>
 
-            <div class="form-group">
-                <label asp-for="Product.Stock" class="control-label"></label>
-                <input asp-for="Product.Stock" class="form-control" />
-                <span asp-validation-for="Product.Stock" class="text-danger"></span>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Guardar
+                            </button>
+                            <a asp-page="./Index" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left"></i> Volver
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
-
-            <div class="form-group mt-3">
-                <input type="submit" value="Create" class="btn btn-primary" />
-                <a asp-page="Index" class="btn btn-secondary">Back to List</a>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <partial name="_ValidationScriptsPartial" />
 }

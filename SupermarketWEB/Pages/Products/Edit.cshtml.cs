@@ -49,25 +49,38 @@ namespace SupermarketWEB.Pages.Products
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (!ModelState.IsValid)
+            if (id == null)
             {
-                Categories = await _context.Categories
-                    .Select(c => new SelectListItem
-                    {
-                        Value = c.Id.ToString(),
-                        Text = c.Name
-                    })
-                    .ToListAsync();
-
-                return Page();
+                return NotFound();
             }
 
-            _context.Attach(Product).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            var productToUpdate = await _context.Products.FindAsync(id);
 
-            return RedirectToPage("./Index");
+            if (productToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            if (await TryUpdateModelAsync<Product>(
+                productToUpdate,
+                "Product", // Prefix for form value.
+                p => p.Name, p => p.Price, p => p.Stock, p => p.CategoryId))
+            {
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+
+            Categories = await _context.Categories
+                .Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name
+                })
+                .ToListAsync();
+
+            return Page();
         }
     }
 }

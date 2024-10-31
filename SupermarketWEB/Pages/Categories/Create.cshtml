@@ -2,33 +2,47 @@
 @model SupermarketWEB.Pages.Categories.CreateModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear";
 }
 
-<h1>Create</h1>
-
-<h4>Category</h4>
+<h1>Crear Categoría</h1>
+<h4>Detalles de la Categoría</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Category.Name" class="control-label"></label>
-                <input asp-for="Category.Name" class="form-control" />
-                <span asp-validation-for="Category.Name" class="text-danger"></span>
-
-            </div>
-            <div class="form-group">
-                <label asp-for="Category.Description" class="control-label"></label>
-                <input asp-for="Category.Description" class="form-control" />
-                <span asp-validation-for="Category.Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-
-                <input type="submit" value="Create" class="btn btn-success" />
-                <a asp-page="Index" class="btn btn-primary">Back to List</a>
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">Campo</th>
+                        <th scope="col">Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table-active">
+                        <td>
+                            <label asp-for="Category.Name" class="control-label"></label>
+                        </td>
+                        <td>
+                            <input asp-for="Category.Name" class="form-control" />
+                            <span asp-validation-for="Category.Name" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label asp-for="Category.Description" class="control-label"></label>
+                        </td>
+                        <td>
+                            <input asp-for="Category.Description" class="form-control" />
+                            <span asp-validation-for="Category.Description" class="text-danger"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="form-group mt-3">
+                <input type="submit" value="Crear" class="btn btn-success" />
+                <a asp-page="Index" class="btn btn-primary">Volver a la Lista</a>
             </div>
         </form>
     </div>
@@ -37,5 +51,5 @@
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }  
+    }
 }
