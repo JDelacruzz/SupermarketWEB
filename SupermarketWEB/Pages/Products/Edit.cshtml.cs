@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using SupermarketWEB.Data;
 using SupermarketWEB.Models;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -19,11 +20,42 @@ namespace SupermarketWEB.Pages.Products
             _context = context;
         }
 
+        public class InputModel
+        {
+            [Required(ErrorMessage = "El nombre es obligatorio.")]
+            public string Name { get; set; }
+
+            [Required(ErrorMessage = "El precio es obligatorio.")]
+            [Range(0, int.MaxValue, ErrorMessage = "El precio debe ser un número positivo.")]
+            public int Price { get; set; }
+
+            [Required(ErrorMessage = "El stock es obligatorio.")]
+            [Range(0, int.MaxValue, ErrorMessage = "El stock debe ser un número positivo.")]
+            public int Stock { get; set; }
+
+            [Required(ErrorMessage = "La categoría es obligatoria")]
+            [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar una categoría válida.")]
+            public int CategoryId { get; set; }
+        }
+
         [BindProperty]
-        public Product Product { get; set; } = default!;
+        public InputModel Input { get; set; } = new();
 
-        public List<SelectListItem> Categories { get; set; } = new List<SelectListItem>();
+        // Lista de categorías para el dropdown
+        public IEnumerable<SelectListItem> Categories { get; set; } = default!;
 
+        // Método para cargar las categorías
+        private async Task LoadCategories()
+        {
+            Categories = await _context.Categories
+                .Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name
+                }).ToListAsync();
+        }
+
+        // Método para cargar los datos del producto y las categorías al editar
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -31,29 +63,37 @@ namespace SupermarketWEB.Pages.Products
                 return NotFound();
             }
 
-            Product = await _context.Products.FindAsync(id);
+            var product = await _context.Products.FindAsync(id);
 
-            if (Product == null)
+            if (product == null)
             {
                 return NotFound();
             }
 
-            Categories = await _context.Categories
-                .Select(c => new SelectListItem
-                {
-                    Value = c.Id.ToString(),
-                    Text = c.Name
-                })
-                .ToListAsync();
+            Input = new InputModel
+            {
+                Name = product.Name,
+                Price = product.Price,
+                Stock = product.Stock,
+                CategoryId = product.CategoryId
+            };
 
+            await LoadCategories();
             return Page();
         }
 
+        // Método para procesar la edición del producto
         public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (id == null)
             {
                 return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                await LoadCategories();
+                return Page();
             }
 
             var productToUpdate = await _context.Products.FindAsync(id);
@@ -63,24 +103,16 @@ namespace SupermarketWEB.Pages.Products
                 return NotFound();
             }
 
-            if (await TryUpdateModelAsync<Product>(
-                productToUpdate,
-                "Product", // Prefix for form value.
-                p => p.Name, p => p.Price, p => p.Stock, p => p.CategoryId))
-            {
-                await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
-            }
+            // Actualizar las propiedades del producto con los valores del formulario
+            productToUpdate.Name = Input.Name;
+            productToUpdate.Price = Input.Price;
+            productToUpdate.Stock = Input.Stock;
+            productToUpdate.CategoryId = Input.CategoryId;
 
-            Categories = await _context.Categories
-                .Select(c => new SelectListItem
-                {
-                    Value = c.Id.ToString(),
-                    Text = c.Name
-                })
-                .ToListAsync();
+            await _context.SaveChangesAsync();
 
-            return Page();
+            TempData["SuccessMessage"] = "Producto actualizado exitosamente.";
+            return RedirectToPage("./Index");
         }
     }
 }
