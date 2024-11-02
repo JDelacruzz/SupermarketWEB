@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SupermarketWEB.Data;
 using SupermarketWEB.Models;
+using System.Threading.Tasks;
 
 namespace SupermarketWEB.Pages.PayModels
 {
@@ -20,17 +21,17 @@ namespace SupermarketWEB.Pages.PayModels
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.PayModels == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var paymode = await _context.PayModels.FirstOrDefaultAsync(m => m.Id == id);
-            if (paymode == null)
+            PayMode = await _context.PayModels.FindAsync(id);
+
+            if (PayMode == null)
             {
                 return NotFound();
             }
-            PayMode = paymode;
             return Page();
         }
 
@@ -41,7 +42,15 @@ namespace SupermarketWEB.Pages.PayModels
                 return Page();
             }
 
-            _context.Attach(PayMode).State = EntityState.Modified;
+            var payModeToUpdate = await _context.PayModels.FindAsync(PayMode.Id);
+
+            if (payModeToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            payModeToUpdate.Name = PayMode.Name;
+            payModeToUpdate.Observation = PayMode.Observation;
 
             try
             {
@@ -64,7 +73,7 @@ namespace SupermarketWEB.Pages.PayModels
 
         private bool PayModeExists(int id)
         {
-            return (_context.PayModels?.Any(e => e.Id == id)).GetValueOrDefault();
+            return _context.PayModels.Any(e => e.Id == id);
         }
     }
 }

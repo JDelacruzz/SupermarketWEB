@@ -4,54 +4,55 @@
     ViewData["Title"] = "Crear Método de Pago";
 }
 
-<h1 class="text-center my-4">Crear Método de Pago</h1>
-<hr />
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <form method="post">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <table class="table table-bordered">
-                        <thead class="table-light">
-                            <tr>
-                                <th scope="col">Campo</th>
-                                <th scope="col">Valor</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <label asp-for="PayMode.Name" class="control-label">Nombre del Método de Pago</label>
-                                </td>
-                                <td>
-                                    <input asp-for="PayMode.Name" class="form-control" />
-                                    <span asp-validation-for="PayMode.Name" class="text-danger"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label asp-for="PayMode.Observation" class="control-label">Observación</label>
-                                </td>
-                                <td>
-                                    <input asp-for="PayMode.Observation" class="form-control" />
-                                    <span asp-validation-for="PayMode.Observation" class="text-danger"></span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="form-group mt-3 text-center">
-                        <input type="submit" value="Crear" class="btn btn-success" />
-                        <a asp-page="Index" class="btn btn-primary">Volver a la Lista</a>
-                    </div>
-                </form>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="text-center mb-0">Crear Método de Pago</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <table class="table table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">Campo</th>
+                                    <th scope="col">Valor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><label asp-for="PayMode.Name" class="form-label">Nombre del Método de Pago</label></td>
+                                    <td>
+                                        <input asp-for="PayMode.Name" class="form-control" />
+                                        <span asp-validation-for="PayMode.Name" class="text-danger"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label asp-for="PayMode.Observation" class="form-label">Observación</label></td>
+                                    <td>
+                                        <input asp-for="PayMode.Observation" class="form-control" />
+                                        <span asp-validation-for="PayMode.Observation" class="text-danger"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-save"></i> Crear
+                            </button>
+                            <a asp-page="Index" class="btn btn-primary">
+                                <i class="bi bi-arrow-left"></i> Volver a la Lista
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <partial name="_ValidationScriptsPartial" />
 }
