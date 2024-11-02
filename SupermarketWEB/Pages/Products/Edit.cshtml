@@ -1,39 +1,71 @@
 ﻿@page
 @model SupermarketWEB.Pages.Products.EditModel
 @{
-    ViewData["Title"] = "Edit Product";
+    ViewData["Title"] = "Editar Producto";
 }
 
-<h1>Edit Product</h1>
-
-<div class="row">
-    <div class="col-md-6">
-        <form method="post">
-            <div class="form-group">
-                <label asp-for="Input.Name" class="control-label"></label>
-                <input asp-for="Input.Name" class="form-control" />
-                <span asp-validation-for="Input.Name" class="text-danger"></span>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="text-center mb-0">Editar Producto</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <table class="table table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">Campo</th>
+                                    <th scope="col">Valor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><label asp-for="Input.Name" class="form-label">Nombre del Producto</label></td>
+                                    <td>
+                                        <input asp-for="Input.Name" class="form-control" />
+                                        <span asp-validation-for="Input.Name" class="text-danger"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label asp-for="Input.Price" class="form-label">Precio</label></td>
+                                    <td>
+                                        <input asp-for="Input.Price" class="form-control" type="number" />
+                                        <span asp-validation-for="Input.Price" class="text-danger"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label asp-for="Input.Stock" class="form-label">Stock</label></td>
+                                    <td>
+                                        <input asp-for="Input.Stock" class="form-control" type="number" />
+                                        <span asp-validation-for="Input.Stock" class="text-danger"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label asp-for="Input.CategoryId" class="form-label">Categoría</label></td>
+                                    <td>
+                                        <select asp-for="Input.CategoryId" class="form-select" asp-items="Model.Categories">
+                                            <option value="">-- Seleccione una categoría --</option>
+                                        </select>
+                                        <span asp-validation-for="Input.CategoryId" class="text-danger"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-save"></i> Guardar
+                            </button>
+                            <a asp-page="./Index" class="btn btn-primary">
+                                <i class="bi bi-arrow-left"></i> Volver
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Input.Price" class="control-label"></label>
-                <input asp-for="Input.Price" class="form-control" type="number" />
-                <span asp-validation-for="Input.Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Stock" class="control-label"></label>
-                <input asp-for="Input.Stock" class="form-control" type="number" />
-                <span asp-validation-for="Input.Stock" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.CategoryId" class="control-label"></label>
-                <select asp-for="Input.CategoryId" class="form-control" asp-items="Model.Categories"></select>
-                <span asp-validation-for="Input.CategoryId" class="text-danger"></span>
-            </div>
-            <div class="form-group mt-3">
-                <input type="submit" value="Save" class="btn btn-primary" />
-                <a asp-page="Index" class="btn btn-secondary">Back to List</a>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
