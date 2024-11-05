@@ -10,38 +10,46 @@
                 </div>
                 <div class="card-body">
                     <form method="post">
-                        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-                        <table class="table table-bordered">
-                            <tbody>
-                                <tr>
-                                    <td><label for="exampleInputEmail1" class="form-label">Correo electrónico</label></td>
-                                    <td>
-                                        <input type="email" class="form-control"
-                                               asp-for="User.Email"
-                                               id="exampleInputEmail1" aria-describedby="emailHelp">
-                                        <div id="emailHelp" class="form-text">Nunca compartiremos tu correo electrónico con nadie.</div>
-                                        <span class="text-danger" asp-validation-for="User.Email"></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label for="exampleInputPassword1" class="form-label">Contraseña</label></td>
-                                    <td>
-                                        <input type="password" class="form-control"
-                                               asp-for="User.Password"
-                                               id="exampleInputPassword1">
-                                        <span class="text-danger" asp-validation-for="User.Password"></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label for="exampleCheck1" class="form-check-label">Recuérdame</label></td>
-                                    <td>
-                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="text-danger text-center mb-3">
+                            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                            {
+                                <p>@Model.ErrorMessage</p>
+                            }
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td><label for="exampleInputEmail1" class="form-label">Correo electrónico</label></td>
+                                        <td>
+                                            <input type="email" class="form-control"
+                                                   asp-for="User.Email"
+                                                   id="exampleInputEmail1" aria-describedby="emailHelp">
+                                            <div id="emailHelp" class="form-text">Nunca compartiremos tu correo electrónico con nadie.</div>
+                                            <span class="text-danger" asp-validation-for="User.Email"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="exampleInputPassword1" class="form-label">Contraseña</label></td>
+                                        <td>
+                                            <input type="password" class="form-control"
+                                                   asp-for="User.Password"
+                                                   id="exampleInputPassword1">
+                                            <span class="text-danger" asp-validation-for="User.Password"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="exampleCheck1" class="form-check-label">Recuérdame</label></td>
+                                        <td>
+                                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <div class="text-center mt-4">
-                            <button type="submit" class="btn btn-success">
+                            <button type="submit" class="btn btn-success"
+                                    disabled="@(Model.ErrorMessage?.Contains("Demasiados intentos fallidos") == true)">
                                 <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
                             </button>
                         </div>
