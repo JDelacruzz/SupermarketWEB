@@ -1,26 +1,61 @@
 ﻿@page
 @model Autenticacion.Pages.Account.LoginModel
 
-<form method="post">
-    <div class="mb-3">
-        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-        <label for="exampleInputEmail1" class="form-label">Correo electrónico</label>
-        <input type="email" class="form-control"
-               asp-for="User.Email"
-               id="exampleInputEmail1" aria-describedby="emailHelp">
-        <div id="emailHelp" class="form-text">Nunca compartiremos tu correo electrónico con nadie.</div>
-        <span class="text-danger" asp-validation-for="User.Email"></span>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="text-center mb-0">Iniciar Sesión</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                        <table class="table table-bordered">
+                            <thead class="table-light">
+                                
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><label for="exampleInputEmail1" class="form-label">Correo electrónico</label></td>
+                                    <td>
+                                        <input type="email" class="form-control"
+                                               asp-for="User.Email"
+                                               id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        <div id="emailHelp" class="form-text">Nunca compartiremos tu correo electrónico con nadie.</div>
+                                        <span class="text-danger" asp-validation-for="User.Email"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="exampleInputPassword1" class="form-label">Contraseña</label></td>
+                                    <td>
+                                        <input type="password" class="form-control"
+                                               asp-for="User.Password"
+                                               id="exampleInputPassword1">
+                                        <span class="text-danger" asp-validation-for="User.Password"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="exampleCheck1" class="form-check-label">Recuérdame</label></td>
+                                    <td>
+                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-        <input type="password" class="form-control"
-               asp-for="User.Password"
-               id="exampleInputPassword1">
-    </div>
-    <span class="text-danger" asp-validation-for="User.Password"></span>
-    <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Recuérdame</label>
-    </div>
-    <button type="submit" class="btn btn-primary">Iniciar sesión</button>
-</form>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
