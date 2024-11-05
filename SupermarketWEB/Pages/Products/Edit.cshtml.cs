@@ -41,10 +41,8 @@ namespace SupermarketWEB.Pages.Products
         [BindProperty]
         public InputModel Input { get; set; } = new();
 
-        // Lista de categorías para el dropdown
         public IEnumerable<SelectListItem> Categories { get; set; } = default!;
 
-        // Método para cargar las categorías
         private async Task LoadCategories()
         {
             Categories = await _context.Categories
@@ -55,7 +53,6 @@ namespace SupermarketWEB.Pages.Products
                 }).ToListAsync();
         }
 
-        // Método para cargar los datos del producto y las categorías al editar
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -82,7 +79,6 @@ namespace SupermarketWEB.Pages.Products
             return Page();
         }
 
-        // Método para procesar la edición del producto
         public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (id == null)
@@ -103,7 +99,6 @@ namespace SupermarketWEB.Pages.Products
                 return NotFound();
             }
 
-            // Actualizar las propiedades del producto con los valores del formulario
             productToUpdate.Name = Input.Name;
             productToUpdate.Price = Input.Price;
             productToUpdate.Stock = Input.Stock;
