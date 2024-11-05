@@ -1,15 +1,22 @@
 ﻿<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-@if (User.Identity.IsAuthenticated)
-{
-    // Si el usuario está autenticado, se muestra un formulario para cerrar sesión
-    <form method="post" class="form-inline" asp-page="/Account/Logout">
-        Welcome @User.Identity.Name
-        <button type="submit" class="ml-2 btn btn-link">Cerrar sesion</button>
-    </form>
-}
-else
-{
-    // Si el usuario no está autenticado, se muestra un enlace para iniciar sesión
-    <a class="btn btn-link" asp-page="/Account/Login">Iniciar sesion</a>
-}
+
+<div class="d-flex align-items-center bg-primary p-2">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <!-- Formulario para cerrar sesión -->
+        <form method="post" class="d-inline-block ms-auto me-2" asp-page="/Account/Logout">
+            <span class="text-light me-2">Bienvenido, @User.Identity.Name</span>
+            <button type="submit" class="btn btn-outline-light btn-sm">
+                <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+            </button>
+        </form>
+    }
+    else
+    {
+        <!-- Enlace para iniciar sesión -->
+        <a class="btn btn-outline-light btn-sm ms-auto" asp-page="/Account/Login">
+            <i class="fas fa-sign-in-alt"></i> Iniciar sesión
+        </a>
+    }
+</div>
