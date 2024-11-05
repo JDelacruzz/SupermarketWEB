@@ -4,15 +4,15 @@
 <form method="post">
     <div class="mb-3">
         <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
+        <label for="exampleInputEmail1" class="form-label">Correo electrónico</label>
         <input type="email" class="form-control"
                asp-for="User.Email"
                id="exampleInputEmail1" aria-describedby="emailHelp">
-        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        <div id="emailHelp" class="form-text">Nunca compartiremos tu correo electrónico con nadie.</div>
         <span class="text-danger" asp-validation-for="User.Email"></span>
     </div>
     <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <label for="exampleInputPassword1" class="form-label">Contraseña</label>
         <input type="password" class="form-control"
                asp-for="User.Password"
                id="exampleInputPassword1">
@@ -20,7 +20,7 @@
     <span class="text-danger" asp-validation-for="User.Password"></span>
     <div class="mb-3 form-check">
         <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        <label class="form-check-label" for="exampleCheck1">Recuérdame</label>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Iniciar sesión</button>
 </form>
