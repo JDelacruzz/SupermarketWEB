@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Autenticacion.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
+using SupermarketWEB.Data;
 
 namespace Autenticacion.Pages.Account
 {
@@ -10,11 +11,16 @@ namespace Autenticacion.Pages.Account
     {
         private const int MaxFailedAttempts = 3; // Número máximo de intentos
         private const int LockoutMinutes = 5; // Tiempo de bloqueo en minutos
+        public string ErrorMessage { get; set; }
+        private readonly SupermarketContext _context;
 
         [BindProperty]
         public User User { get; set; }
 
-        public string ErrorMessage { get; set; }
+        public LoginModel(SupermarketContext context)
+        {
+            _context = context;
+        }
 
         public void OnGet()
         {
@@ -43,11 +49,11 @@ namespace Autenticacion.Pages.Account
                 return Page();
             }
 
-            if (User.Email == "correo@gmail.com" && User.Password == "12345")
+            if (_context.Users.Any(u => u.Email == User.Email && u.Password == User.Password))
             {
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, "admin"),
+                    new Claim(ClaimTypes.Name, "Admin"),
                     new Claim(ClaimTypes.Email,User.Email),
                 };
                 var identity = new ClaimsIdentity(claims, "MyCookieAuth");

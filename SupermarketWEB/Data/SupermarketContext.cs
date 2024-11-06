@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Autenticacion.Models;
+using Microsoft.EntityFrameworkCore;
 using SupermarketWEB.Models;
 
 namespace SupermarketWEB.Data
@@ -14,7 +15,7 @@ namespace SupermarketWEB.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<PayModeModels> PayModels{ get; set; }
         public DbSet<Customer> Customers { get; set; }
-
+        public DbSet<User> Users{ get; set; }
 
     }
 }
